@@ -17,19 +17,33 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+This project uses a **content-based recommendation system**, which means it recommends songs based on the features of the songs themselves instead of comparing users to other users.
 
-Some prompts to answer:
+### Song Features
+Each song in the system uses:
+- title
+- artist
+- genre
+- mood
+- energy
+- tempo
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+### User Profile
+The `UserProfile` stores:
+- favorite genre
+- favorite mood
+- target energy
+- target tempo
 
-You can include a simple diagram or bullet list if helpful.
+### Scoring Logic
+The `Recommender` gives each song a weighted score:
+- +2 points for a matching genre
+- +1 point for a matching mood
+- up to +2 points if the song’s energy is close to the user’s target
+- up to +1 point if the song’s tempo is close to the user’s target
 
----
+### Ranking Rule
+After every song is scored, the system sorts the songs from highest score to lowest score and recommends the top 3–5 songs.
 
 ## Getting Started
 
@@ -68,27 +82,12 @@ You can add more tests in `tests/test_recommender.py`.
 
 ## Experiments You Tried
 
-Use this section to document the experiments you ran. For example:
+I tested the recommender with multiple profiles, including High-Energy Pop, Chill Lofi, and Intense Rock. I also ran a small experiment by lowering the genre weight from 2.0 to 1.0. This made the system more flexible because songs from different genres could rank higher if they matched energy and tempo well, but it also made some recommendations feel less intuitive.
 
-- What happened when you changed the weight on genre from 2.0 to 0.5
-- What happened when you added tempo or valence to the score
-- How did your system behave for different types of users
-
----
 
 ## Limitations and Risks
 
-Summarize some limitations of your recommender.
-
-Examples:
-
-- It only works on a tiny catalog
-- It does not understand lyrics or language
-- It might over favor one genre or mood
-
-You will go deeper on this in your model card.
-
----
+This recommender only works on a very small catalog of songs, so its suggestions are limited. It may also over-favor certain genres or moods if they appear more often in the dataset. Because it uses only a few song features, it does not understand lyrics, personal history, or more complex listening behavior.
 
 ## Reflection
 
